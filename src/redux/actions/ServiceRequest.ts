@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { apiCall } from "../../apis/api";
-import { ActionTypes } from "../constants/action-types"
-import { UpdateServiceRequestDto } from "../../models/service_requests";
+import { apiCall } from "../../apis/Api";
+import { ActionTypes } from "../constants/ActionTypes"
+import { UpdateServiceRequestDto } from "../../models/ServiceRequests";
 
 export const fetchServiceRequests = createAsyncThunk(
   ActionTypes.FETCH_SERVICE_REQUESTS,
@@ -10,7 +10,6 @@ export const fetchServiceRequests = createAsyncThunk(
       const data = await apiCall('api/v1/admin/findAllSrsPending', 'get');
       return data;
     } catch (error: any) {
-    // return custom error message from API if any
     if (error.response && error.response.data.message) {
       return rejectWithValue(error.response.data.message)
     } else {
@@ -27,7 +26,6 @@ export const updateServiceRequests = createAsyncThunk(
         const data = await apiCall('api/v1/admin/updateServiceRequestByAdmin', 'patch', params);
         return data;
       } catch (error: any) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)
       } else {

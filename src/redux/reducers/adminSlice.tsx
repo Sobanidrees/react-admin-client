@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { adminLogin, adminLogout } from '../actions/admin';
+import { adminLogin, adminLogout } from '../actions/Admin';
 
 const initialState = {
   loading: false,

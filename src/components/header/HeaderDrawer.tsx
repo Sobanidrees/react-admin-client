@@ -23,27 +23,22 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import { APP_FONT } from '../../constants/app_font';
+import { APP_FONT } from '../../constants/AppFont';
 import { useDispatch } from 'react-redux';
-import { adminLogout } from '../../redux/actions/admin';
+import { adminLogout } from '../../redux/actions/Admin';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { useCallback, useState } from 'react';
 
 const drawerWidth = 240;
 
 export const HeaderDrawer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoading, setLoading] = React.useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const adminString = localStorage.getItem('admin');
   if (adminString) {
     var admin = JSON.parse(adminString);
   }
-
-  const firstCharacter = admin.email.charAt(0).toUpperCase();
-
-  const handleNavigateToDashboard = React.useCallback(() => {
-    navigate('/dashboard');
-  }, []);
 
   const theme = createTheme({
     typography: {
@@ -111,7 +106,7 @@ export const HeaderDrawer = () => {
                 backgroundColor: '#fff',
               }}
             >
-              {firstCharacter}
+              {admin.email.charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
           <Typography

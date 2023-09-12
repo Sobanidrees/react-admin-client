@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { store } from './redux/store';
+import { store } from './redux/Store';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/authentication/login/login';
 import { Provider } from 'react-redux';
-import { Dashboard } from './pages/dashboard/dashboard';
-import { InspectorDetails } from './pages/inspector_details/inspector_details';
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,13 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/inspector-details" element={<InspectorDetails />} />
-        </Routes>
-      </BrowserRouter>
+      <App />
     </Provider>
   </React.StrictMode>,
 );

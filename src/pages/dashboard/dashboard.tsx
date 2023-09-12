@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import { HeaderDrawer } from '../../components/header/header_drawer';
+import { HeaderDrawer } from '../../components/header/HeaderDrawer';
 import { Toolbar, Typography } from '@mui/material';
-import { APP_FONT } from '../../constants/app_font';
-import { SRCard } from '../../components/sr_card/cards';
+import { APP_FONT } from '../../constants/AppFont';
+import { SRCard } from '../../components/sr-card/Cards';
 
 export const Dashboard = () => {
   return (

@@ -6,14 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack, ThemeProvider, createTheme } from '@mui/material';
-import { APP_FONT } from '../../constants/app_font';
+import { APP_FONT } from '../../constants/AppFont';
 import { useNavigate } from 'react-router-dom';
-import SrUpdateModal from '../modals/sr_update_modal';
+import SrUpdateModal from '../modals/SrUpdateModal';
 import { useDispatch } from 'react-redux';
-import { fetchServiceRequests } from '../../redux/actions/service_request';
+import { fetchServiceRequests } from '../../redux/actions/ServiceRequest';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { ServiceRequest } from '../../models/service_requests';
+import { ServiceRequest } from '../../models/ServiceRequests';
 import moment from 'moment';
+import { useCallback, useEffect, useState } from 'react';
 
 const theme = createTheme({
   typography: {
@@ -41,17 +42,17 @@ const rightContentStyle = {
 export const SRCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [serviceRequests, setServiceRequests] = React.useState<
+  const [serviceRequests, setServiceRequests] = useState<
     ServiceRequest[]
   >([]);
-  const [showSrUpdateModal, setShowSrUpdateModal] = React.useState(false);
-  const [selectedId, setSelectedId] = React.useState<number>();
+  const [showSrUpdateModal, setShowSrUpdateModal] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<number>();
 
-  const handleNavigateToInspectorDetails = React.useCallback(() => {
+  const handleNavigateToInspectorDetails = useCallback(() => {
     navigate('/inspector-details');
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch<any>(fetchServiceRequests())
       .then(unwrapResult)
       .then((service_requests: any) => {

@@ -14,10 +14,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ReactComponent as EfyxLogo } from '../../../assets/images/efyxLogo.svg';
-import { APP_FONT } from '../../../constants/app_font';
+import { APP_FONT } from '../../../constants/AppFont';
 import { useDispatch } from 'react-redux';
-import { AdminDto } from '../../../models/account';
-import { adminLogin } from '../../../redux/actions/admin';
+import { AdminDto } from '../../../models/Account';
+import { adminLogin } from '../../../redux/actions/Admin';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 type LoginBase = {

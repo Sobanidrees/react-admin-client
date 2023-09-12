@@ -15,6 +15,10 @@ export const apiCall = async (
   data?: any,
   params?: any,
 ) => {
-  const res = await api({ url, method, data, params });
-  return res.data;
+  try {
+    const res = await api({ url, method, data, params });
+    return res.data;
+  } catch (error) {
+    throw new Error("An error occurred during the API call.");
+  }
 };

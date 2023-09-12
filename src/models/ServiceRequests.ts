@@ -1,6 +1,6 @@
-import { Consumer } from './consumer';
-import { Service } from './service';
-import { Vehicle } from './vehicle';
+import { Consumer } from './Consumer';
+import { Service } from './Service';
+import { Vehicle } from './Vehicle';
 
 export type ServiceRequest = {
   id: number;
