@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/authentication/login/Login';
-import { Dashboard } from './pages/dashboard/Dashboard';
+import Login from './pages/authentication/login/login';
+import { Dashboard } from './pages/dashboard/dashboard';
 import { InspectorDetails } from './pages/inspector-details/InspectorDetails';
 
 function App() {

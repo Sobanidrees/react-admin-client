@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -25,11 +24,42 @@ import {
 } from '@mui/material';
 import { APP_FONT } from '../../constants/AppFont';
 import { useDispatch } from 'react-redux';
-import { adminLogout } from '../../redux/actions/Admin';
+import { adminLogout } from '../../redux/actions/admin';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 const drawerWidth = 240;
+
+const theme = createTheme({
+  typography: {
+    fontFamily: APP_FONT,
+  },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: '#00897B',
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontWeight: 600,
+        },
+      },
+    },
+  },
+});
+
+const drawerTab = {
+  color: '#fff',
+  '&:hover': {
+    color: '#fff',
+  },
+};
 
 export const HeaderDrawer = () => {
   const dispatch = useDispatch();
@@ -40,37 +70,6 @@ export const HeaderDrawer = () => {
     var admin = JSON.parse(adminString);
   }
 
-  const theme = createTheme({
-    typography: {
-      fontFamily: APP_FONT,
-    },
-    components: {
-      MuiListItemButton: {
-        styleOverrides: {
-          root: {
-            '&:hover': {
-              backgroundColor: '#00897B',
-            },
-          },
-        },
-      },
-      MuiListItemText: {
-        styleOverrides: {
-          primary: {
-            fontWeight: 600,
-          },
-        },
-      },
-    },
-  });
-
-  const drawerTab = {
-    color: '#fff',
-    '&:hover': {
-      color: '#fff',
-    },
-  };
-
   const onLogout = () => {
     setLoading(true);
     dispatch<any>(adminLogout())
@@ -80,7 +79,7 @@ export const HeaderDrawer = () => {
       })
       .catch((err: any) => {
         setLoading(false);
-        console.log('error');
+        console.error('error', err);
       });
   };
 
@@ -111,7 +110,7 @@ export const HeaderDrawer = () => {
           </IconButton>
           <Typography
             color="inherit"
-            sx={{
+            style={{
               fontFamily: APP_FONT,
               fontWeight: '600',
               fontSize: '18px',

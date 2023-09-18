@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -9,9 +8,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { UpdateServiceRequestDto } from '../../models/ServiceRequests';
+import { UpdateServiceRequestDto } from '../../models/service_requests';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { updateServiceRequests } from '../../redux/actions/ServiceRequest';
+import { updateServiceRequests } from '../../redux/actions/service_request';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
@@ -29,7 +28,7 @@ const style = {
 };
 
 export default function SrUpdateModal(props: any) {
-  const { open, setOpen, selectedId } = props;
+  const { open, setOpen, selectedId, updateDateTimeInServiceRequests } = props;
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [error, setError] = useState<string>();
@@ -66,6 +65,7 @@ export default function SrUpdateModal(props: any) {
       .then(unwrapResult)
       .then((update_sr: any) => {
         if (update_sr) {
+          updateDateTimeInServiceRequests(selectedId, date, time);
           setOpen(!open);
         }
       })
