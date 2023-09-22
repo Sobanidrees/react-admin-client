@@ -9,8 +9,6 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { InspectorAssignedSr } from '../../models/inspectors';
 import { inspectorAssignedSr } from '../../redux/actions/inspectors';
-import { UpdateServiceRequestStatus } from '../../models/service_requests';
-import { serviceRequestsStatus } from '../../redux/actions/service_request';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -26,7 +24,7 @@ const style = {
 };
 
 export default function InspectorAssignedSrModal(props: any) {
-  const { open, setOpen, selectedId, srId } = props;
+  const { open, setOpen, selectedId, srId, selectedFullName, showAlert } = props;
   const [error, setError] = useState<string>();
   const dispatch = useDispatch();
 
@@ -37,27 +35,16 @@ export default function InspectorAssignedSrModal(props: any) {
     };
     console.log('serviceRequest====+++++++++', assignedSr);
     dispatch<any>(inspectorAssignedSr(assignedSr))
-    .then(unwrapResult)
-    .then((assigned_sr: any) => {
-      if (assigned_sr) {
-        const updateStatus: UpdateServiceRequestStatus = {
-          id: parseInt(srId, 10),
-          status: 'Pending',
-        };
-        console.log('updateStatusParams====+++++++++', updateStatus);
-        dispatch<any>(serviceRequestsStatus(updateStatus))
-          .then(unwrapResult)
-          .then(() => {
-            setOpen(!open);
-          })
-          .catch((err: any) => {
-            setError(err);
-          });
-      }
-    })
-    .catch((err: any) => {
-      setError(err);
-    });
+      .then(unwrapResult)
+      .then((assigned_sr: any) => {
+        if (assigned_sr) {
+          setOpen(!open);
+          showAlert(`Inspection has been assigned to ${selectedFullName}`)
+        }
+      })
+      .catch((err: any) => {
+        setError(err);
+      });
   };
 
   return (

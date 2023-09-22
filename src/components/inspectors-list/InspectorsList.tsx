@@ -5,6 +5,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  Alert,
   Button,
   Divider,
   Stack,
@@ -36,6 +37,15 @@ export default function InspectorsList({ id }: any) {
   const [showInspectorAssignedSrModal, setShowInspectorAssignedSrModal] =
     useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>();
+  const [selectedFullName, setSelectedFullName] = useState<string>('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  const showAlert = (message: string) => {
+    setAlertMessage(message);
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 5000);
+  };
 
   useEffect(() => {
     dispatch<any>(fetchInspectors())
@@ -70,13 +80,28 @@ export default function InspectorsList({ id }: any) {
     event.stopPropagation();
   };
 
-  const handleAssignRequest = (id: number) => {
+  const handleAssignRequest = (id: number, fullName: string) => {
     setSelectedId(id);
+    setSelectedFullName(fullName);
     setShowInspectorAssignedSrModal(true);
   };
 
   return (
     <ThemeProvider theme={theme}>
+      {alertMessage && (
+        <Alert
+          severity="success"
+          sx={{
+            backgroundColor: '#F5F5F5',
+            color: '#003650',
+            fontWeight: 600,
+            borderRadius: '5px',
+            border: '1px solid #0EA1AB',
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      )}
       {!!inspectors.length &&
         inspectors.map((inspector) => (
           <Accordion
@@ -103,8 +128,9 @@ export default function InspectorsList({ id }: any) {
                 <Button
                   onClick={(event) => {
                     handleAssignButtonClick(event);
-                    handleAssignRequest(inspector.id);
+                    handleAssignRequest(inspector.id, inspector.fullName);
                   }}
+                  disabled={id === null}
                   variant="outlined"
                   size="small"
                   sx={{
@@ -184,11 +210,7 @@ export default function InspectorsList({ id }: any) {
                 >
                   Assigned Slots
                 </Typography>
-                <Stack
-                  direction={'row'}
-                  mt={'20px'}
-                  ml={'7%'}
-                >
+                <Stack direction={'row'} mt={'20px'} ml={'7%'}>
                   <Typography
                     mt={'15px'}
                     mb={'5px'}
@@ -218,12 +240,7 @@ export default function InspectorsList({ id }: any) {
                   </Typography>
                 </Stack>
                 {inspector.serviceRequests.map((request, index) => (
-                  <Stack
-                    direction={'row'}
-                    mt={'5px'}
-                    ml={'7%'}
-                    key={index}
-                  >
+                  <Stack direction={'row'} mt={'5px'} ml={'7%'} key={index}>
                     <Typography
                       mt={'10px'}
                       mb={'5px'}
@@ -262,7 +279,9 @@ export default function InspectorsList({ id }: any) {
           open={showInspectorAssignedSrModal}
           setOpen={setShowInspectorAssignedSrModal}
           selectedId={selectedId}
+          selectedFullName={selectedFullName}
           srId={id}
+          showAlert={showAlert}
         />
       )}
     </ThemeProvider>

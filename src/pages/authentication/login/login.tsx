@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   TextField,
@@ -46,6 +46,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem('jwtToken')) {
+      navigate('/dashboard');
+    }
+  }, [])
+  
   const {
     handleSubmit,
     control,

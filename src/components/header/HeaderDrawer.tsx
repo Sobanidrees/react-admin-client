@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -26,7 +27,6 @@ import { APP_FONT } from '../../constants/AppFont';
 import { useDispatch } from 'react-redux';
 import { adminLogout } from '../../redux/actions/admin';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useState } from 'react';
 
 const drawerWidth = 240;
 
@@ -55,6 +55,7 @@ const theme = createTheme({
 });
 
 const drawerTab = {
+  marginY: '6px',
   color: '#fff',
   '&:hover': {
     color: '#fff',
@@ -64,8 +65,11 @@ const drawerTab = {
 export const HeaderDrawer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentPath = window.location.pathname;
   const [isLoading, setLoading] = useState<boolean>(false);
   const adminString = localStorage.getItem('admin');
+  const [focusedItem, setFocusedItem] = useState(-1);
+
   if (adminString) {
     var admin = JSON.parse(adminString);
   }
@@ -82,6 +86,16 @@ export const HeaderDrawer = () => {
         console.error('error', err);
       });
   };
+
+  useEffect(() => {
+    if (currentPath === '/dashboard') {
+      setFocusedItem(0);
+    } else if (currentPath === '/inspector-details') {
+      setFocusedItem(1);
+    } else {
+      setFocusedItem(-1);
+    }
+  }, [currentPath]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -159,7 +173,17 @@ export const HeaderDrawer = () => {
                   onClick={() => navigate('/dashboard')}
                   disablePadding
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    selected={focusedItem === 0}
+                    sx={{
+                      '&.Mui-selected': {
+                        backgroundColor: '#00897B',
+                        '&:hover': {
+                          backgroundColor: '#00897B',
+                        },
+                      },
+                    }}
+                  >
                     <HomeIcon
                       height={30}
                       width={30}
@@ -175,7 +199,17 @@ export const HeaderDrawer = () => {
                 onClick={() => navigate('/inspector-details')}
                 disablePadding
               >
-                <ListItemButton>
+                <ListItemButton
+                  selected={focusedItem === 1}
+                  sx={{
+                    '&.Mui-selected': {
+                      backgroundColor: '#00897B',
+                      '&:hover': {
+                        backgroundColor: '#00897B',
+                      },
+                    },
+                  }}
+                >
                   <InspectorIcon
                     height={30}
                     width={30}

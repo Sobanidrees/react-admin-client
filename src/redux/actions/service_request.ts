@@ -34,19 +34,3 @@ export const updateServiceRequests = createAsyncThunk(
       }
     }
   );
-
-  export const serviceRequestsStatus = createAsyncThunk(
-    ActionTypes.UPDATE_SERVICE_REQUEST_STATUS,
-    async (creds: UpdateServiceRequestStatus, { rejectWithValue }) => {
-      try {
-        const data = await apiCall(`api/v1/service-request/${creds.id}`, 'patch', creds);
-        return data;
-      } catch (error: any) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
-      } else {
-          return rejectWithValue(error.message)
-        }
-      }
-    }
-  );

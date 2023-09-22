@@ -23,7 +23,7 @@ export const inspectorAssignedSr = createAsyncThunk(
     ActionTypes.ASSIGNED_SERVICE_REQUESTS,
     async (params: InspectorAssignedSr, { rejectWithValue }) => {
       try {
-        const data = await apiCall('api/v1/admin/inspectorAssignedServiceRequest', 'post', params);
+        const data = await apiCall('api/v1/admin/inspectorAssignedServiceRequest', 'patch', params);
         return data;
       } catch (error: any) {
         if (error.response && error.response.data.message) {
