@@ -15,6 +15,13 @@ export type ServiceRequest = {
   packageType: string;
 };
 
+export enum Status {
+  Requested = 'Requested',
+  Pending = 'Pending',
+  InProgress = 'InProgress',
+  Completed = 'Completed',
+}
+
 export type UpdateServiceRequestStatus = {
   id: number;
   status: string;

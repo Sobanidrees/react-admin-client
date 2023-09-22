@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { apiCall } from "../../apis/api";
 import { ActionTypes } from "../constants/ActionTypes"
-import { UpdateServiceRequestDto, UpdateServiceRequestStatus } from "../../models/service_requests";
+import { Status, UpdateServiceRequestDto } from "../../models/service_requests";
 
 export const fetchServiceRequests = createAsyncThunk(
   ActionTypes.FETCH_SERVICE_REQUESTS,
-  async (_, { rejectWithValue }) => {
+  async (status: Status, { rejectWithValue }) => {
     try {
-      const data = await apiCall('api/v1/admin/findAllSrsPending', 'get');
+      const data = await apiCall(`api/v1/admin/findAllSrsPending/${status}`, 'get');
       return data;
     } catch (error: any) {
     if (error.response && error.response.data.message) {

@@ -10,7 +10,7 @@ import SrUpdateModal from '../modals/SrUpdateModal';
 import { useDispatch } from 'react-redux';
 import { fetchServiceRequests } from '../../redux/actions/service_request';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { ServiceRequest } from '../../models/service_requests';
+import { ServiceRequest, Status } from '../../models/service_requests';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -43,6 +43,7 @@ export const SRCard = () => {
   const [serviceRequests, setServiceRequests] = useState<
     ServiceRequest[]
   >([]);
+  const [status, setStatus] = useState<Status>(Status.Requested);
   const [showSrUpdateModal, setShowSrUpdateModal] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>();
 
@@ -51,7 +52,7 @@ export const SRCard = () => {
   }, []);
 
   useEffect(() => {
-    dispatch<any>(fetchServiceRequests())
+    dispatch<any>(fetchServiceRequests(status))
       .then(unwrapResult)
       .then((service_requests: any) => {
         if (service_requests) {
