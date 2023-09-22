@@ -1,6 +1,6 @@
-import { Consumer } from './Consumer';
-import { Service } from './Service';
-import { Vehicle } from './Vehicle';
+import { Consumer } from './consumer';
+import { Service } from './service';
+import { Vehicle } from './vehicle';
 
 export type ServiceRequest = {
   id: number;
@@ -13,6 +13,11 @@ export type ServiceRequest = {
   consumer: Consumer;
   status: string;
   packageType: string;
+};
+
+export type UpdateServiceRequestStatus = {
+  id: number;
+  status: string;
 };
 
 export type UpdateServiceRequestDto = {

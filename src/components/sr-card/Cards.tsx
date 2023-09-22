@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -10,9 +8,9 @@ import { APP_FONT } from '../../constants/AppFont';
 import { useNavigate } from 'react-router-dom';
 import SrUpdateModal from '../modals/SrUpdateModal';
 import { useDispatch } from 'react-redux';
-import { fetchServiceRequests } from '../../redux/actions/ServiceRequest';
+import { fetchServiceRequests } from '../../redux/actions/service_request';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { ServiceRequest } from '../../models/ServiceRequests';
+import { ServiceRequest } from '../../models/service_requests';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -48,15 +46,14 @@ export const SRCard = () => {
   const [showSrUpdateModal, setShowSrUpdateModal] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>();
 
-  const handleNavigateToInspectorDetails = useCallback(() => {
-    navigate('/inspector-details');
+  const handleNavigateToInspectorDetails = useCallback((id: number) => {
+    navigate(`/inspector-details?id=${id}`);
   }, []);
 
   useEffect(() => {
     dispatch<any>(fetchServiceRequests())
       .then(unwrapResult)
       .then((service_requests: any) => {
-        console.log(service_requests, '===============');
         if (service_requests) {
           setServiceRequests(service_requests);
         }
@@ -71,6 +68,20 @@ export const SRCard = () => {
     setShowSrUpdateModal(true);
   };
 
+  const updateDateTimeInServiceRequests = (id: number, newDate: string, newTime: string) => {
+    const updatedServiceRequests = serviceRequests.map((sr) => {
+      if (sr.id === id) {
+        return {
+          ...sr,
+          date: newDate,
+          time: newTime,
+        };
+      }
+      return sr;
+    });
+    setServiceRequests(updatedServiceRequests);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {!!serviceRequests.length &&
@@ -80,13 +91,12 @@ export const SRCard = () => {
               <Stack direction={'column'} spacing={1}>
                 <Typography
                   variant="h5"
-                  component="div"
-                  style={{ marginBottom: '3px', fontWeight: 600 }}
+                  sx={{ marginBottom: '3px', fontWeight: 600, color: '#003650' }}
                 >
                   {sr.consumer?.fullName}
                 </Typography>
                 <Typography
-                  style={{
+                  sx={{
                     marginBottom: '3px',
                     fontWeight: 700,
                     color: '#003650',
@@ -99,7 +109,7 @@ export const SRCard = () => {
                 </Typography>
                 <Typography
                   variant="body2"
-                  style={{ fontWeight: 400, color: '#003650' }}
+                  sx={{ fontWeight: 400, color: '#003650' }}
                 >
                   Requested a Service for{' '}
                   <span style={{ color: '#003650', fontWeight: 700 }}>
@@ -112,7 +122,7 @@ export const SRCard = () => {
             <CardContent sx={rightContentStyle}>
               <Stack direction={'row'} spacing={2}>
                 <Typography
-                  style={{
+                  sx={{
                     fontWeight: 700,
                     color: '#003650',
                   }}
@@ -123,7 +133,7 @@ export const SRCard = () => {
                   </span>
                 </Typography>
                 <Typography
-                  style={{
+                  sx={{
                     fontWeight: 700,
                     color: '#003650',
                   }}
@@ -137,12 +147,13 @@ export const SRCard = () => {
             </CardContent>
             <CardActions>
               <Button
-                onClick={handleNavigateToInspectorDetails}
+                onClick={()=>handleNavigateToInspectorDetails(sr.id)}
                 variant="outlined"
                 size="small"
                 sx={{
                   textTransform: 'none',
-                  borderColor: '#000',
+                  borderColor: '#0EA1AB',
+                  color: '#003650',
                   width: 244,
                 }}
               >
@@ -154,7 +165,8 @@ export const SRCard = () => {
                 size="small"
                 sx={{
                   textTransform: 'none',
-                  borderColor: '#000',
+                  borderColor: '#0EA1AB',
+                  color: '#003650',
                   width: 244,
                 }}
               >
@@ -162,7 +174,7 @@ export const SRCard = () => {
               </Button>
               <Typography
                 variant="body2"
-                style={{
+                sx={{
                   fontWeight: 700,
                   color: '#003650',
                   marginLeft: '180px',
@@ -179,6 +191,7 @@ export const SRCard = () => {
           open={showSrUpdateModal}
           setOpen={setShowSrUpdateModal}
           selectedId={selectedId}
+          updateDateTimeInServiceRequests={updateDateTimeInServiceRequests}
         />
       )}
     </ThemeProvider>

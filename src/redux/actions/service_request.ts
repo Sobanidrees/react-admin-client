@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { apiCall } from "../../apis/Api";
+import { apiCall } from "../../apis/api";
 import { ActionTypes } from "../constants/ActionTypes"
-import { UpdateServiceRequestDto } from "../../models/ServiceRequests";
+import { UpdateServiceRequestDto, UpdateServiceRequestStatus } from "../../models/service_requests";
 
 export const fetchServiceRequests = createAsyncThunk(
   ActionTypes.FETCH_SERVICE_REQUESTS,
