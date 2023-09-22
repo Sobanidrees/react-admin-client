@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { adminLogin, adminLogout } from '../actions/Admin';
+import { adminLogin, adminLogout } from '../actions/admin';
 
 const initialState = {
   loading: false,
   admin: null,
-  jwtToken: null, // for storing the JWT
+  jwtToken: null,
   error: null,
   success: false,
 };

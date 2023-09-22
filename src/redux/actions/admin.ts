@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiCall } from '../../apis/Api';
-import { AdminDto } from '../../models/Account';
+import { apiCall } from '../../apis/api';
+import { AdminDto } from '../../models/account';
 import { ActionTypes } from '../constants/ActionTypes';
 import jwt_decode from 'jwt-decode';
 
@@ -25,9 +25,11 @@ export const adminLogin = createAsyncThunk(
 
 export const adminLogout = createAsyncThunk(
   ActionTypes.ADMIN_LOGOUT,
-  async (_: void, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      await localStorage.removeItem('jwtToken');
+      await apiCall('api/v1/auth/logout', 'post');
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('admin');
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -25,51 +25,54 @@ import {
 } from '@mui/material';
 import { APP_FONT } from '../../constants/AppFont';
 import { useDispatch } from 'react-redux';
-import { adminLogout } from '../../redux/actions/Admin';
+import { adminLogout } from '../../redux/actions/admin';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useCallback, useState } from 'react';
 
 const drawerWidth = 240;
+
+const theme = createTheme({
+  typography: {
+    fontFamily: APP_FONT,
+  },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: '#00897B',
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontWeight: 600,
+        },
+      },
+    },
+  },
+});
+
+const drawerTab = {
+  marginY: '6px',
+  color: '#fff',
+  '&:hover': {
+    color: '#fff',
+  },
+};
 
 export const HeaderDrawer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentPath = window.location.pathname;
   const [isLoading, setLoading] = useState<boolean>(false);
   const adminString = localStorage.getItem('admin');
+  const [focusedItem, setFocusedItem] = useState(-1);
+
   if (adminString) {
     var admin = JSON.parse(adminString);
   }
-
-  const theme = createTheme({
-    typography: {
-      fontFamily: APP_FONT,
-    },
-    components: {
-      MuiListItemButton: {
-        styleOverrides: {
-          root: {
-            '&:hover': {
-              backgroundColor: '#00897B',
-            },
-          },
-        },
-      },
-      MuiListItemText: {
-        styleOverrides: {
-          primary: {
-            fontWeight: 600,
-          },
-        },
-      },
-    },
-  });
-
-  const drawerTab = {
-    color: '#fff',
-    '&:hover': {
-      color: '#fff',
-    },
-  };
 
   const onLogout = () => {
     setLoading(true);
@@ -80,9 +83,19 @@ export const HeaderDrawer = () => {
       })
       .catch((err: any) => {
         setLoading(false);
-        console.log('error');
+        console.error('error', err);
       });
   };
+
+  useEffect(() => {
+    if (currentPath === '/dashboard') {
+      setFocusedItem(0);
+    } else if (currentPath === '/inspector-details') {
+      setFocusedItem(1);
+    } else {
+      setFocusedItem(-1);
+    }
+  }, [currentPath]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -111,7 +124,7 @@ export const HeaderDrawer = () => {
           </IconButton>
           <Typography
             color="inherit"
-            sx={{
+            style={{
               fontFamily: APP_FONT,
               fontWeight: '600',
               fontSize: '18px',
@@ -160,7 +173,17 @@ export const HeaderDrawer = () => {
                   onClick={() => navigate('/dashboard')}
                   disablePadding
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    selected={focusedItem === 0}
+                    sx={{
+                      '&.Mui-selected': {
+                        backgroundColor: '#00897B',
+                        '&:hover': {
+                          backgroundColor: '#00897B',
+                        },
+                      },
+                    }}
+                  >
                     <HomeIcon
                       height={30}
                       width={30}
@@ -176,7 +199,17 @@ export const HeaderDrawer = () => {
                 onClick={() => navigate('/inspector-details')}
                 disablePadding
               >
-                <ListItemButton>
+                <ListItemButton
+                  selected={focusedItem === 1}
+                  sx={{
+                    '&.Mui-selected': {
+                      backgroundColor: '#00897B',
+                      '&:hover': {
+                        backgroundColor: '#00897B',
+                      },
+                    },
+                  }}
+                >
                   <InspectorIcon
                     height={30}
                     width={30}

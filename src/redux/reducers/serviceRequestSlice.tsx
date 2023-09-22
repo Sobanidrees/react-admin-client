@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchServiceRequests } from '../actions/ServiceRequest';
+import { fetchServiceRequests } from '../actions/service_request';
 
 const initialState = {
   loading: false,

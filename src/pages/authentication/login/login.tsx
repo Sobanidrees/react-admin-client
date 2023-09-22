@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   TextField,
@@ -16,8 +16,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ReactComponent as EfyxLogo } from '../../../assets/images/efyxLogo.svg';
 import { APP_FONT } from '../../../constants/AppFont';
 import { useDispatch } from 'react-redux';
-import { AdminDto } from '../../../models/Account';
-import { adminLogin } from '../../../redux/actions/Admin';
+import { AdminDto } from '../../../models/account';
+import { adminLogin } from '../../../redux/actions/admin';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 type LoginBase = {
@@ -46,6 +46,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem('jwtToken')) {
+      navigate('/dashboard');
+    }
+  }, [])
+  
   const {
     handleSubmit,
     control,
@@ -68,16 +74,12 @@ const Login = () => {
     dispatch<any>(adminLogin(admin))
       .then(unwrapResult)
       .then((adminJwt: string) => {
-        // handle result here
         setLoading(false);
         if (adminJwt) {
           navigate('/dashboard');
-        } else {
-          setError(error);
         }
       })
       .catch((err: any) => {
-        // handle result here
         setLoading(false);
         setError(err);
       });
