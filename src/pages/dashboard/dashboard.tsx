@@ -14,6 +14,7 @@ export const Dashboard = () => {
         <Toolbar />
         <Typography
           sx={{
+            marginBottom: '2%', 
             fontFamily: APP_FONT,
             fontWeight: '600',
             fontSize: '48px',

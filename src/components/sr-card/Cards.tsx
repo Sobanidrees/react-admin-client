@@ -40,12 +40,11 @@ const rightContentStyle = {
 export const SRCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [serviceRequests, setServiceRequests] = useState<
-    ServiceRequest[]
-  >([]);
+  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
   const [status, setStatus] = useState<Status>(Status.Requested);
   const [showSrUpdateModal, setShowSrUpdateModal] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>();
+  const [focused, setFocused] = useState('');
 
   const handleNavigateToInspectorDetails = useCallback((id: number) => {
     navigate(`/inspector-details?id=${id}`);
@@ -62,14 +61,18 @@ export const SRCard = () => {
       .catch((error: any) => {
         console.log(error);
       });
-  }, []);
+  }, [status]);
 
   const handleUpdateRequest = (id: number) => {
     setSelectedId(id);
     setShowSrUpdateModal(true);
   };
 
-  const updateDateTimeInServiceRequests = (id: number, newDate: string, newTime: string) => {
+  const updateDateTimeInServiceRequests = (
+    id: number,
+    newDate: string,
+    newTime: string,
+  ) => {
     const updatedServiceRequests = serviceRequests.map((sr) => {
       if (sr.id === id) {
         return {
@@ -85,6 +88,77 @@ export const SRCard = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Stack direction={'row'} spacing={3} sx={{ marginBottom: '3%' }}>
+        <Button
+          onClick={() => {
+            setStatus(Status.Requested);
+          }}
+          variant="outlined"
+          size="small"
+          sx={{
+            '&:hover': {
+              backgroundColor: '#003650',
+            },
+            textTransform: 'none',
+            backgroundColor:
+              status === Status.Requested ? '#003650 ' : '#0EA1AB',
+            color: '#fff',
+            width: 183,
+          }}
+        >
+          Requested
+        </Button>
+        <Button
+          onClick={() => setStatus(Status.Pending)}
+          variant="outlined"
+          size="small"
+          sx={{
+            '&:hover': {
+              backgroundColor: '#003650',
+            },
+            textTransform: 'none',
+            backgroundColor: status === Status.Pending ? '#003650' : '#0EA1AB',
+            color: '#fff',
+            width: 183,
+          }}
+        >
+          Pending
+        </Button>
+        <Button
+          onClick={() => setStatus(Status.InProgress)}
+          variant="outlined"
+          size="small"
+          sx={{
+            '&:hover': {
+              backgroundColor: '#003650',
+            },
+            textTransform: 'none',
+            backgroundColor:
+              status === Status.InProgress ? '#003650' : '#0EA1AB',
+            color: '#fff',
+            width: 183,
+          }}
+        >
+          In Progress
+        </Button>
+        <Button
+          onClick={() => setStatus(Status.Completed)}
+          variant="outlined"
+          size="small"
+          sx={{
+            '&:hover': {
+              backgroundColor: '#003650',
+            },
+            textTransform: 'none',
+            backgroundColor:
+              status === Status.Completed ? '#003650' : '#0EA1AB',
+            color: '#fff',
+            width: 183,
+          }}
+        >
+          Completed
+        </Button>
+      </Stack>
       {!!serviceRequests.length &&
         serviceRequests.map((sr) => (
           <Card key={sr.id} variant="outlined" sx={cardStyle}>
@@ -92,7 +166,11 @@ export const SRCard = () => {
               <Stack direction={'column'} spacing={1}>
                 <Typography
                   variant="h5"
-                  sx={{ marginBottom: '3px', fontWeight: 600, color: '#003650' }}
+                  sx={{
+                    marginBottom: '3px',
+                    fontWeight: 600,
+                    color: '#003650',
+                  }}
                 >
                   {sr.consumer?.fullName}
                 </Typography>
@@ -116,7 +194,7 @@ export const SRCard = () => {
                   <span style={{ color: '#003650', fontWeight: 700 }}>
                     {`${sr.vehicle?.year} ${sr.vehicle?.make} ${sr.vehicle?.model}`}{' '}
                   </span>
-                    {moment(sr?.createdAt).fromNow()}
+                  {moment(sr?.createdAt).fromNow()}
                 </Typography>
               </Stack>
             </CardContent>
@@ -148,7 +226,7 @@ export const SRCard = () => {
             </CardContent>
             <CardActions>
               <Button
-                onClick={()=>handleNavigateToInspectorDetails(sr.id)}
+                onClick={() => handleNavigateToInspectorDetails(sr.id)}
                 variant="outlined"
                 size="small"
                 sx={{
