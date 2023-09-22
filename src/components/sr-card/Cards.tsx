@@ -44,7 +44,6 @@ export const SRCard = () => {
   const [status, setStatus] = useState<Status>(Status.Requested);
   const [showSrUpdateModal, setShowSrUpdateModal] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>();
-  const [focused, setFocused] = useState('');
 
   const handleNavigateToInspectorDetails = useCallback((id: number) => {
     navigate(`/inspector-details?id=${id}`);

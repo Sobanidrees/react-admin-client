@@ -126,7 +126,7 @@ export default function InspectorsList({ id }: any) {
               </Typography>
               <Stack direction={'row'} spacing={23} alignItems={'center'}>
                 <Button
-                  onClick={(event) => {
+                  onClick={(event: any) => {
                     handleAssignButtonClick(event);
                     handleAssignRequest(inspector.id, inspector.fullName);
                   }}
