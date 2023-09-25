@@ -33,7 +33,6 @@ export default function InspectorAssignedSrModal(props: any) {
       inspectorId: selectedId,
       serviceRequestId: parseInt(srId, 10),
     };
-    console.log('serviceRequest====+++++++++', assignedSr);
     dispatch<any>(inspectorAssignedSr(assignedSr))
       .then(unwrapResult)
       .then((assigned_sr: any) => {
@@ -56,19 +55,19 @@ export default function InspectorAssignedSrModal(props: any) {
     >
       <Box sx={style}>
         <Button
-          style={{
+          sx={{
             borderRadius: '20px',
             minWidth: '10px',
             marginLeft: '97%',
           }}
           onClick={() => setOpen(!open)}
         >
-          <CloseIcon style={{ color: '#9E9E9E' }} />
+          <CloseIcon sx={{ color: '#9E9E9E' }} />
         </Button>
         <Stack
           direction={'column'}
           spacing={3}
-          style={{ alignItems: 'center' }}
+          sx={{ alignItems: 'center' }}
         >
           <Typography
             id="modal-modal-title"

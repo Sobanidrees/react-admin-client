@@ -83,7 +83,7 @@ export default function SrUpdateModal(props: any) {
     >
       <Box sx={style}>
         <Button
-          style={{
+          sx={{
             borderRadius: '20px',
             minWidth: '10px',
             marginLeft: '97%',
@@ -95,7 +95,7 @@ export default function SrUpdateModal(props: any) {
         <Stack
           direction={'column'}
           spacing={3}
-          style={{ alignItems: 'center' }}
+          sx={{ alignItems: 'center' }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Update The Service Request Time

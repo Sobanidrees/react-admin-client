@@ -111,7 +111,7 @@ export const HeaderDrawer = () => {
           <EfyxLogo height={75} width={150} />
           <IconButton sx={{ ml: 'auto' }}>
             <Avatar
-              style={{
+              sx={{
                 height: 40,
                 width: 40,
                 color: '#008080',
@@ -124,7 +124,7 @@ export const HeaderDrawer = () => {
           </IconButton>
           <Typography
             color="inherit"
-            style={{
+            sx={{
               fontFamily: APP_FONT,
               fontWeight: '600',
               fontSize: '18px',
