@@ -189,11 +189,16 @@ export const SRCard = () => {
                   variant="body2"
                   sx={{ fontWeight: 400, color: '#003650' }}
                 >
-                  Requested a Service for{' '}
+                  {status === Status.Requested && `Requested a service for`}
+                  {status !== Status.Requested && `Requested Service for`}{' '}
                   <span style={{ color: '#003650', fontWeight: 700 }}>
                     {`${sr.vehicle?.year} ${sr.vehicle?.make} ${sr.vehicle?.model}`}{' '}
                   </span>
-                  {moment(sr?.createdAt).fromNow()}
+                  {status === Status.Requested &&
+                    moment(sr?.createdAt).fromNow()}
+                  {status === Status.Pending && `is Pending`}
+                  {status === Status.InProgress && `is in Progress`}
+                  {status === Status.Completed && `has been Completed`}{' '}
                 </Typography>
               </Stack>
             </CardContent>
@@ -234,6 +239,7 @@ export const SRCard = () => {
                   color: '#003650',
                   width: 244,
                 }}
+                disabled={status !== Status.Requested}
               >
                 ASSIGN TO INSPECTOR
               </Button>
@@ -247,6 +253,7 @@ export const SRCard = () => {
                   color: '#003650',
                   width: 244,
                 }}
+                disabled={status !== Status.Requested}
               >
                 UPDATE THE REQUEST
               </Button>
