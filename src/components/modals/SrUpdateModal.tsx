@@ -109,7 +109,7 @@ export default function SrUpdateModal(props: any) {
                 sx={{
                   width: '120%',
                   '& input:focus': {
-                    borderColor: '#fff',
+                    borderColor: '#000',
                   },
                 }}
               />

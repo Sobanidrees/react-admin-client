@@ -52,7 +52,6 @@ export default function InspectorsList({ id }: any) {
       .then(unwrapResult)
       .then((inspector: any) => {
         if (inspector) {
-          console.log(inspector, '=========inspectorsassign=========');
           setInspectors(inspector);
         }
       })

@@ -50,8 +50,8 @@ const Login = () => {
     if (localStorage.getItem('jwtToken')) {
       navigate('/dashboard');
     }
-  }, [])
-  
+  }, []);
+
   const {
     handleSubmit,
     control,
@@ -156,10 +156,18 @@ const Login = () => {
                 name="password"
                 control={control}
                 rules={{
+                  minLength: {
+                    value: 8,
+                    message: 'Password should be greater then 8 letters',
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: 'Password should be less then 20 letters',
+                  },
                   required: 'Please enter your password.',
                   pattern: {
                     value:
-                      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i,
+                      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
                     message: 'Invalid password format',
                   },
                 }}
