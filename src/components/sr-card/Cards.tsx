@@ -13,6 +13,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { ServiceRequest, Status } from '../../models/service_requests';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 const theme = createTheme({
   typography: {
@@ -61,6 +62,25 @@ export const SRCard = () => {
         console.log(error);
       });
   }, [status]);
+  useEffect(() => {
+    const socket = io('http://localhost:3001');
+
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket server');
+    });
+
+    socket.on('connect_error', (error) => {
+      console.error('WebSocket connection error:', error);
+    });
+
+    socket.on('newServiceRequest', (requestData) => {
+      setServiceRequests((prevRequests) => [requestData, ...prevRequests]);
+    });
+    console.log(serviceRequests);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const handleUpdateRequest = (id: number) => {
     setSelectedId(id);
